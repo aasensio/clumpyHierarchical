@@ -77,7 +77,7 @@ labels = [r'$\alpha_\sigma$',r'$\beta_\sigma$',r'$\alpha_Y$',r'$\beta_Y$',r'$\al
 	
 
 lower = [15.0, 5.0, 1.0, 0.0, 5.0]
-upper = [70.0, 100.0, 15.0, 3.0, 150.0]
+upper = [70.0, 30.0, 15.0, 3.0, 150.0]
 
 upperY = [0.3,0.16,4.0,4.0,0.1]
 pars = [r'$\sigma$','Y','N','q',r'$\tau$']

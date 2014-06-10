@@ -109,7 +109,7 @@ class impSampling(object):
 		self.sampler.run_mcmc(p0, 5000)
 		
 lower = [15.0, 5.0, 1.0, 0.0, 5.0]
-upper = [70.0, 100.0, 15.0, 3.0, 150.0]
+upper = [70.0, 30.0, 15.0, 3.0, 150.0]
 
 out = impSampling(lower, upper, 200)
 out.sample()
