@@ -9,8 +9,8 @@ import emcee
 import pdb
 
 class impSampling(object):
-	def __init__(self, lower, upper, length):
-		self.files = glob.glob('onlyLinear/*.dat')
+	def __init__(self, directory, lower, upper, length):
+		self.files = glob.glob(directory+'*.dat')
 		self.files.sort()
 		
 		self.nFiles = len(self.files)
@@ -74,18 +74,18 @@ class impSampling(object):
 		return (x-a)**(alpha-1.0) * (b-x)**(beta-1.0)		
 	
 	def initialValues(self):
-		pl.close('all')
-		fig, ax = pl.subplots(nrows = 5, ncols=2, figsize=(12,10))
+		#pl.close('all')
+		#fig, ax = pl.subplots(nrows = 5, ncols=2, figsize=(12,10))
 		dat = [self.Sigma, self.Y, self.N, self.Q, self.Tau]
 		bestFit = np.zeros((5,2))
 		for i in range(5):
 			alpha, beta = fsolve(self.equations, (1, 1), args=(self.lower[i], self.upper[i], np.mean(dat[i]), np.var(dat[i])))
 			bestFit[i,:] = [alpha, beta]
 			print alpha, beta
-			ax[i,0].hist(dat[i].flatten())
-			xAxis = np.linspace(self.lower[i], self.upper[i], 100)			
-			ax[i,1].plot(xAxis, (xAxis-self.lower[i])**(alpha-1.0) * (self.upper[i]-xAxis)**(beta-1.0))
-		pl.tight_layout()
+			#ax[i,0].hist(dat[i].flatten())
+			#xAxis = np.linspace(self.lower[i], self.upper[i], 100)			
+			#ax[i,1].plot(xAxis, (xAxis-self.lower[i])**(alpha-1.0) * (self.upper[i]-xAxis)**(beta-1.0))
+		#pl.tight_layout()
 		return bestFit.flatten()		
 				
 	def logPrior(self, x):		
@@ -111,10 +111,20 @@ class impSampling(object):
 lower = [15.0, 5.0, 1.0, 0.0, 5.0]
 upper = [70.0, 30.0, 15.0, 3.0, 150.0]
 
-out = impSampling(lower, upper, 200)
+print "Working on Type 1..."
+out = impSampling('onlyLinear/Type-1/', lower, upper, 200)
 out.sample()
-
 samples = out.sampler.chain[:,-1000:,:]
+np.save('samplesHyperParType1.npy',samples)
 
-np.save('samplesHyperPar.npy',samples)
+print "Working on Type 2..."
+out = impSampling('onlyLinear/Type-2/', lower, upper, 200)
+out.sample()
+samples = out.sampler.chain[:,-1000:,:]
+np.save('samplesHyperParType2.npy',samples)
 
+print "Working on NHBLR..."
+out = impSampling('onlyLinear/NHBLR/', lower, upper, 200)
+out.sample()
+samples = out.sampler.chain[:,-1000:,:]
+np.save('samplesHyperParNHBLR.npy',samples)
