@@ -4,7 +4,6 @@ import scipy.special as sp
 import scipy.misc as mi
 from scipy.optimize import fsolve
 import glob
-from DIRECT import solve
 import emcee
 import pdb
 
