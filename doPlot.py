@@ -25,8 +25,6 @@ def betaPrior(x, alpha, beta, left, right):
 	pf = np.exp(ylog)
 	return pf
 
-def kullbackLeibler(x, p1, p2):
-	
 
 def plotResults(fileHyperPar, directory, outFile):
 	samples = np.load(fileHyperPar)
